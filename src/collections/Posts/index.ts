@@ -2,9 +2,8 @@ import type { CollectionConfig } from 'payload'
 
 import {
   BlocksFeature,
+  EXPERIMENTAL_TableFeature,
   FixedToolbarFeature,
-  HeadingFeature,
-  HorizontalRuleFeature,
   InlineToolbarFeature,
   lexicalEditor,
 } from '@payloadcms/richtext-lexical'
@@ -17,6 +16,7 @@ import { MediaBlock } from '../../blocks/MediaBlock/config'
 import { generatePreviewPath } from '../../utilities/generatePreviewPath'
 import { populateAuthors } from './hooks/populateAuthors'
 import { revalidateDelete, revalidatePost } from './hooks/revalidatePost'
+import { generateSeoMeta } from '@/hooks/generateSeoMeta'
 
 import {
   MetaDescriptionField,
@@ -39,7 +39,8 @@ export const Posts: CollectionConfig<'posts'> = {
   // https://payloadcms.com/docs/queries/select#defaultpopulate-collection-config-property
   // Type safe if the collection slug generic is passed to `CollectionConfig` - `CollectionConfig<'posts'>
   defaultPopulate: {
-    title: true,
+    title_vi: true,
+    title_en: true,
     slug: true,
     categories: true,
     meta: {
@@ -48,7 +49,7 @@ export const Posts: CollectionConfig<'posts'> = {
     },
   },
   admin: {
-    defaultColumns: ['title', 'slug', 'updatedAt'],
+    defaultColumns: ['title_vi', 'title_en', 'slug', 'updatedAt'],
     livePreview: {
       url: ({ data, req }) =>
         generatePreviewPath({
@@ -63,11 +64,16 @@ export const Posts: CollectionConfig<'posts'> = {
         collection: 'posts',
         req,
       }),
-    useAsTitle: 'title',
+    useAsTitle: 'title_vi',
   },
   fields: [
     {
-      name: 'title',
+      name: 'title_vi',
+      type: 'text',
+      required: true,
+    },
+    {
+      name: 'title_en',
       type: 'text',
       required: true,
     },
@@ -82,23 +88,42 @@ export const Posts: CollectionConfig<'posts'> = {
               relationTo: 'media',
             },
             {
-              name: 'content',
+              name: 'content_vi',
               type: 'richText',
               editor: lexicalEditor({
                 features: ({ rootFeatures }) => {
                   return [
                     ...rootFeatures,
-                    HeadingFeature({ enabledHeadingSizes: ['h1', 'h2', 'h3', 'h4'] }),
                     BlocksFeature({ blocks: [Banner, Code, MediaBlock] }),
+                    EXPERIMENTAL_TableFeature(),
                     FixedToolbarFeature(),
                     InlineToolbarFeature(),
-                    HorizontalRuleFeature(),
                   ]
                 },
               }),
-              label: false,
+              label: 'Content (VI)',
               required: true,
             },
+            {
+              name: 'content_en',
+              type: 'richText',
+              editor: lexicalEditor({
+                features: ({ rootFeatures }) => {
+                  return [
+                    ...rootFeatures,
+                    BlocksFeature({ blocks: [Banner, Code, MediaBlock] }),
+                    EXPERIMENTAL_TableFeature(),
+                    FixedToolbarFeature(),
+                    InlineToolbarFeature(),
+                  ]
+                },
+              }),
+              label: 'Content (EN)',
+              required: true,
+            },
+            slugField({
+              fieldToUse: 'title_en',
+            }),
           ],
           label: 'Content',
         },
@@ -148,7 +173,7 @@ export const Posts: CollectionConfig<'posts'> = {
               relationTo: 'media',
             }),
 
-            MetaDescriptionField({}),
+            MetaDescriptionField({ hasGenerateFn: true }),
             PreviewField({
               // if the `generateUrl` function is configured
               hasGenerateFn: true,
@@ -214,12 +239,12 @@ export const Posts: CollectionConfig<'posts'> = {
         },
       ],
     },
-    slugField(),
   ],
   hooks: {
     afterChange: [revalidatePost],
     afterRead: [populateAuthors],
     afterDelete: [revalidateDelete],
+    beforeChange: [generateSeoMeta],
   },
   versions: {
     drafts: {

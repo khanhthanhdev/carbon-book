@@ -12,6 +12,7 @@ import { slugField } from 'payload'
 import { populatePublishedAt } from '../../hooks/populatePublishedAt'
 import { generatePreviewPath } from '../../utilities/generatePreviewPath'
 import { revalidateDelete, revalidatePage } from './hooks/revalidatePage'
+import { generateSeoMeta } from '@/hooks/generateSeoMeta'
 
 import {
   MetaDescriptionField,
@@ -97,7 +98,7 @@ export const Pages: CollectionConfig<'pages'> = {
               relationTo: 'media',
             }),
 
-            MetaDescriptionField({}),
+            MetaDescriptionField({ hasGenerateFn: true }),
             PreviewField({
               // if the `generateUrl` function is configured
               hasGenerateFn: true,
@@ -121,7 +122,7 @@ export const Pages: CollectionConfig<'pages'> = {
   ],
   hooks: {
     afterChange: [revalidatePage],
-    beforeChange: [populatePublishedAt],
+    beforeChange: [populatePublishedAt, generateSeoMeta],
     afterDelete: [revalidateDelete],
   },
   versions: {

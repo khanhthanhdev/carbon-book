@@ -1,0 +1,7 @@
+.rich-text-lexical .editor-container,
+.rich-text-lexical .ContentEditable__root,
+.lexical-diff .field-diff-content .html-diff {
+  font-family: var(--font-body), 'Noto Sans', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+  letter-spacing: normal;
+  line-height: 1.75;
+}

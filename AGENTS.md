@@ -1,5 +1,13 @@
 # Payload CMS Development Rules
 
+## Quick Reference
+
+**Build/Run**: `bun dev` | `bun build` | `bun start`
+**Test**: `bun test:int` (unit) | `bun test:e2e` (e2e) | `bun test` (both)
+**Lint**: `bun lint` | `bun lint:fix`
+**Types**: `bun generate:types` | `bun generate:importmap`
+**Tech Stack**: Next.js 15, Payload 3.76, SQLite, TypeScript, React 19, Tailwind CSS 4, Vitest, Playwright
+
 You are an expert Payload CMS developer. When working with Payload projects, follow these rules:
 
 ## Core Principles
@@ -20,16 +28,30 @@ You are an expert Payload CMS developer. When working with Payload projects, fol
 
 ```
 src/
-├── app/
-│   ├── (frontend)/          # Frontend routes
-│   └── (payload)/           # Payload admin routes
-├── collections/             # Collection configs
-├── globals/                 # Global configs
-├── components/              # Custom React components
-├── hooks/                   # Hook functions
-├── access/                  # Access control functions
-└── payload.config.ts        # Main config
+├── app/                     # Next.js 15 routes (frontend + Payload admin)
+├── collections/             # Payload collection configs
+├── components/              # Reusable React components
+├── blocks/                  # Page builder blocks
+├── hooks/                   # Payload hooks (beforeChange, afterChange, etc.)
+├── access/                  # Access control functions (Payload RBAC)
+├── endpoints/               # Custom Payload endpoints
+├── fields/                  # Custom field types
+├── plugins/                 # Payload plugins configuration
+├── search/                  # Search plugin implementation
+├── Footer/, Header/         # Layout components
+├── heros/, providers/       # UI patterns and context providers
+├── utilities/               # Shared utility functions
+└── payload.config.ts        # Main Payload config (Next.js + collections)
 ```
+
+## Code Style & Conventions
+
+**Imports**: Path aliases `@/*` → `src/*`, `@payload-config` → `payload.config.ts`
+**Formatting**: Prettier (100 col, single quotes, trailing commas, no semicolons)
+**TypeScript**: `strict: true`, target ES2022, always type Payload API responses
+**React**: React 19, use Server Components by default, Client Components for state/events
+**Error Handling**: Always check `overrideAccess: false` in Local API, pass `req` to hooks
+**Naming**: Collections UPPERCASE, access functions describe permissions, hooks describe lifecycle
 
 ## Configuration
 
@@ -37,7 +59,7 @@ src/
 
 ```typescript
 import { buildConfig } from 'payload'
-import { mongooseAdapter } from '@payloadcms/db-mongodb'
+import { sqliteAdapter } from '@payloadcms/db-sqlite'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
 import path from 'path'
 import { fileURLToPath } from 'url'
@@ -58,8 +80,8 @@ export default buildConfig({
   typescript: {
     outputFile: path.resolve(dirname, 'payload-types.ts'),
   },
-  db: mongooseAdapter({
-    url: process.env.DATABASE_URL,
+  db: sqliteAdapter({
+    url: process.env.DATABASE_URL || './payload.db',
   }),
 })
 ```

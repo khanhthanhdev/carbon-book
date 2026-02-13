@@ -10,7 +10,36 @@ export const post2: (args: PostArgs) => RequiredDataFromCollectionSlug<'posts'> 
     slug: 'global-gaze',
     _status: 'published',
     authors: [author],
-    content: {
+    content_vi: {
+      root: {
+        type: 'root',
+        children: [
+          {
+            type: 'paragraph',
+            children: [
+              {
+                type: 'text',
+                detail: 0,
+                format: 0,
+                mode: 'normal',
+                style: '',
+                text: 'Bài viết mẫu tiếng Việt.',
+                version: 1,
+              },
+            ],
+            direction: 'ltr',
+            format: '',
+            indent: 0,
+            version: 1,
+          },
+        ],
+        direction: 'ltr',
+        format: '',
+        indent: 0,
+        version: 1,
+      },
+    },
+    content_en: {
       root: {
         type: 'root',
         children: [
@@ -227,6 +256,7 @@ export const post2: (args: PostArgs) => RequiredDataFromCollectionSlug<'posts'> 
       title: 'Global Gaze: Beyond the Headlines',
     },
     relatedPosts: [], // this is populated by the seed script
-    title: 'Global Gaze: Beyond the Headlines',
+    title_vi: 'Global Gaze: Beyond the Headlines (VI)',
+    title_en: 'Global Gaze: Beyond the Headlines',
   }
 }

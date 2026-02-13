@@ -1,5 +1,36 @@
 import { BeforeSync, DocToSync } from '@payloadcms/plugin-search/types'
 
+const localePriority = ['vi', 'en']
+
+const isRecord = (value: unknown): value is Record<string, unknown> => {
+  return typeof value === 'object' && value !== null
+}
+
+const getLocalizedString = (value: unknown): string | undefined => {
+  if (typeof value === 'string' && value.trim()) return value
+  if (!isRecord(value) || 'root' in value) return undefined
+
+  for (const localeCode of localePriority) {
+    const localizedValue = value[localeCode]
+    if (typeof localizedValue === 'string' && localizedValue.trim()) return localizedValue
+  }
+
+  for (const localizedValue of Object.values(value)) {
+    if (typeof localizedValue === 'string' && localizedValue.trim()) return localizedValue
+  }
+
+  return undefined
+}
+
+const getSplitString = (doc: Record<string, unknown>, baseField: string): string | undefined => {
+  for (const localeCode of localePriority) {
+    const value = doc?.[`${baseField}_${localeCode}`]
+    if (typeof value === 'string' && value.trim()) return value
+  }
+
+  return undefined
+}
+
 export const beforeSyncWithSearch: BeforeSync = async ({ req, originalDoc, searchDoc }) => {
   const {
     doc: { relationTo: collection },
@@ -7,14 +38,26 @@ export const beforeSyncWithSearch: BeforeSync = async ({ req, originalDoc, searc
 
   const { slug, id, categories, title, meta } = originalDoc
 
+  const docTitle =
+    getLocalizedString(title) ||
+    getLocalizedString(originalDoc.question) ||
+    getSplitString(originalDoc as Record<string, unknown>, 'title') ||
+    getSplitString(originalDoc as Record<string, unknown>, 'question')
+  const docSlug = slug || String(id)
+  const docDescription =
+    meta?.description ||
+    getLocalizedString(originalDoc.summary) ||
+    getSplitString(originalDoc as Record<string, unknown>, 'summary')
+
   const modifiedDoc: DocToSync = {
     ...searchDoc,
-    slug,
+    title: searchDoc.title || docTitle || '',
+    slug: docSlug,
     meta: {
       ...meta,
-      title: meta?.title || title,
+      title: meta?.title || docTitle,
       image: meta?.image?.id || meta?.image,
-      description: meta?.description,
+      description: docDescription,
     },
     categories: [],
   }

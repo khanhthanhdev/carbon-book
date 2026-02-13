@@ -6,6 +6,7 @@ import React from 'react'
 import RichText from '@/components/RichText'
 
 import { CollectionArchive } from '@/components/CollectionArchive'
+import { getUserLanguage, pickLocalizedString } from '@/utilities/localization'
 
 export const ArchiveBlock: React.FC<
   ArchiveBlockProps & {
@@ -15,6 +16,7 @@ export const ArchiveBlock: React.FC<
   const { id, categories, introContent, limit: limitFromProps, populateBy, selectedDocs } = props
 
   const limit = limitFromProps || 3
+  const language = await getUserLanguage()
 
   let posts: Post[] = []
 
@@ -41,14 +43,20 @@ export const ArchiveBlock: React.FC<
         : {}),
     })
 
-    posts = fetchedPosts.docs
+      posts = fetchedPosts.docs.map((post) => ({
+        ...post,
+        title: pickLocalizedString(language, post.title_vi, post.title_en),
+      })) as Post[]
   } else {
     if (selectedDocs?.length) {
       const filteredSelectedPosts = selectedDocs.map((post) => {
         if (typeof post.value === 'object') return post.value
       }) as Post[]
 
-      posts = filteredSelectedPosts
+      posts = filteredSelectedPosts.map((post) => ({
+        ...post,
+        title: pickLocalizedString(language, post.title_vi, post.title_en),
+      })) as Post[]
     }
   }
 

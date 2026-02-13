@@ -5,6 +5,7 @@ import React from 'react'
 import type { Header as HeaderType } from '@/payload-types'
 
 import { CMSLink } from '@/components/Link'
+import { LanguageSwitcher } from '@/components/LanguageSwitcher'
 import Link from 'next/link'
 import { SearchIcon } from 'lucide-react'
 
@@ -16,6 +17,8 @@ export const HeaderNav: React.FC<{ data: HeaderType }> = ({ data }) => {
       {navItems.map(({ link }, i) => {
         return <CMSLink key={i} {...link} appearance="link" />
       })}
+      <CMSLink appearance="link" label="Handbook" type="custom" url="/handbook" />
+      <LanguageSwitcher />
       <Link href="/search">
         <span className="sr-only">Search</span>
         <SearchIcon className="w-5 text-primary" />

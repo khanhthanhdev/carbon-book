@@ -8,6 +8,7 @@ import { getPayload } from 'payload'
 import React from 'react'
 import PageClient from './page.client'
 import { notFound } from 'next/navigation'
+import { getUserLanguage, pickLocalizedString } from '@/utilities/localization'
 
 export const revalidate = 600
 
@@ -15,10 +16,18 @@ type Args = {
   params: Promise<{
     pageNumber: string
   }>
+  searchParams: Promise<{
+    lang?: string
+  }>
 }
 
-export default async function Page({ params: paramsPromise }: Args) {
+export default async function Page({
+  params: paramsPromise,
+  searchParams: searchParamsPromise,
+}: Args) {
   const { pageNumber } = await paramsPromise
+  const { lang } = await searchParamsPromise
+  const language = await getUserLanguage(lang)
   const payload = await getPayload({ config: configPromise })
 
   const sanitizedPageNumber = Number(pageNumber)
@@ -31,7 +40,19 @@ export default async function Page({ params: paramsPromise }: Args) {
     limit: 12,
     page: sanitizedPageNumber,
     overrideAccess: false,
+    select: {
+      title_vi: true,
+      title_en: true,
+      slug: true,
+      categories: true,
+      meta: true,
+    },
   })
+
+  const localizedPosts = posts.docs.map((post) => ({
+    ...post,
+    title: pickLocalizedString(language, post.title_vi, post.title_en),
+  }))
 
   return (
     <div className="pt-24 pb-24">
@@ -51,7 +72,7 @@ export default async function Page({ params: paramsPromise }: Args) {
         />
       </div>
 
-      <CollectionArchive posts={posts.docs} />
+      <CollectionArchive posts={localizedPosts} />
 
       <div className="container">
         {posts?.page && posts?.totalPages > 1 && (

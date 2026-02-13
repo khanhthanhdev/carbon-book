@@ -69,9 +69,13 @@ export interface Config {
   collections: {
     pages: Page;
     posts: Post;
+    books: Book;
+    sections: Section;
+    qas: Qa;
     media: Media;
     categories: Category;
     users: User;
+    'chat-conversations': ChatConversation;
     redirects: Redirect;
     forms: Form;
     'form-submissions': FormSubmission;
@@ -91,9 +95,13 @@ export interface Config {
   collectionsSelect: {
     pages: PagesSelect<false> | PagesSelect<true>;
     posts: PostsSelect<false> | PostsSelect<true>;
+    books: BooksSelect<false> | BooksSelect<true>;
+    sections: SectionsSelect<false> | SectionsSelect<true>;
+    qas: QasSelect<false> | QasSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     categories: CategoriesSelect<false> | CategoriesSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
+    'chat-conversations': ChatConversationsSelect<false> | ChatConversationsSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
@@ -106,7 +114,7 @@ export interface Config {
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
   };
   db: {
-    defaultIDType: string;
+    defaultIDType: number;
   };
   fallbackLocale: null;
   globals: {
@@ -153,7 +161,7 @@ export interface UserAuthOperations {
  * via the `definition` "pages".
  */
 export interface Page {
-  id: string;
+  id: number;
   title: string;
   hero: {
     type: 'none' | 'highImpact' | 'mediumImpact' | 'lowImpact';
@@ -180,11 +188,11 @@ export interface Page {
             reference?:
               | ({
                   relationTo: 'pages';
-                  value: string | Page;
+                  value: number | Page;
                 } | null)
               | ({
                   relationTo: 'posts';
-                  value: string | Post;
+                  value: number | Post;
                 } | null);
             url?: string | null;
             label: string;
@@ -196,7 +204,7 @@ export interface Page {
           id?: string | null;
         }[]
       | null;
-    media?: (string | null) | Media;
+    media?: (number | null) | Media;
   };
   layout: (CallToActionBlock | ContentBlock | MediaBlock | ArchiveBlock | FormBlock)[];
   meta?: {
@@ -204,7 +212,7 @@ export interface Page {
     /**
      * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
      */
-    image?: (string | null) | Media;
+    image?: (number | null) | Media;
     description?: string | null;
   };
   publishedAt?: string | null;
@@ -222,10 +230,11 @@ export interface Page {
  * via the `definition` "posts".
  */
 export interface Post {
-  id: string;
-  title: string;
-  heroImage?: (string | null) | Media;
-  content: {
+  id: number;
+  title_vi: string;
+  title_en: string;
+  heroImage?: (number | null) | Media;
+  content_vi: {
     root: {
       type: string;
       children: {
@@ -240,29 +249,44 @@ export interface Post {
     };
     [k: string]: unknown;
   };
-  relatedPosts?: (string | Post)[] | null;
-  categories?: (string | Category)[] | null;
+  content_en: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  /**
+   * When enabled, the slug will auto-generate from the title field on save and autosave.
+   */
+  generateSlug?: boolean | null;
+  slug: string;
+  relatedPosts?: (number | Post)[] | null;
+  categories?: (number | Category)[] | null;
   meta?: {
     title?: string | null;
     /**
      * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
      */
-    image?: (string | null) | Media;
+    image?: (number | null) | Media;
     description?: string | null;
   };
   publishedAt?: string | null;
-  authors?: (string | User)[] | null;
+  authors?: (number | User)[] | null;
   populatedAuthors?:
     | {
         id?: string | null;
         name?: string | null;
       }[]
     | null;
-  /**
-   * When enabled, the slug will auto-generate from the title field on save and autosave.
-   */
-  generateSlug?: boolean | null;
-  slug: string;
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
@@ -272,7 +296,7 @@ export interface Post {
  * via the `definition` "media".
  */
 export interface Media {
-  id: string;
+  id: number;
   alt?: string | null;
   caption?: {
     root: {
@@ -289,7 +313,7 @@ export interface Media {
     };
     [k: string]: unknown;
   } | null;
-  folder?: (string | null) | FolderInterface;
+  folder?: (number | null) | FolderInterface;
   updatedAt: string;
   createdAt: string;
   url?: string | null;
@@ -365,18 +389,18 @@ export interface Media {
  * via the `definition` "payload-folders".
  */
 export interface FolderInterface {
-  id: string;
+  id: number;
   name: string;
-  folder?: (string | null) | FolderInterface;
+  folder?: (number | null) | FolderInterface;
   documentsAndFolders?: {
     docs?: (
       | {
           relationTo?: 'payload-folders';
-          value: string | FolderInterface;
+          value: number | FolderInterface;
         }
       | {
           relationTo?: 'media';
-          value: string | Media;
+          value: number | Media;
         }
     )[];
     hasNextPage?: boolean;
@@ -391,17 +415,17 @@ export interface FolderInterface {
  * via the `definition` "categories".
  */
 export interface Category {
-  id: string;
+  id: number;
   title: string;
   /**
    * When enabled, the slug will auto-generate from the title field on save and autosave.
    */
   generateSlug?: boolean | null;
   slug: string;
-  parent?: (string | null) | Category;
+  parent?: (number | null) | Category;
   breadcrumbs?:
     | {
-        doc?: (string | null) | Category;
+        doc?: (number | null) | Category;
         url?: string | null;
         label?: string | null;
         id?: string | null;
@@ -415,8 +439,9 @@ export interface Category {
  * via the `definition` "users".
  */
 export interface User {
-  id: string;
+  id: number;
   name?: string | null;
+  roles: ('super-admin' | 'admin')[];
   updatedAt: string;
   createdAt: string;
   email: string;
@@ -464,11 +489,11 @@ export interface CallToActionBlock {
           reference?:
             | ({
                 relationTo: 'pages';
-                value: string | Page;
+                value: number | Page;
               } | null)
             | ({
                 relationTo: 'posts';
-                value: string | Post;
+                value: number | Post;
               } | null);
           url?: string | null;
           label: string;
@@ -514,11 +539,11 @@ export interface ContentBlock {
           reference?:
             | ({
                 relationTo: 'pages';
-                value: string | Page;
+                value: number | Page;
               } | null)
             | ({
                 relationTo: 'posts';
-                value: string | Post;
+                value: number | Post;
               } | null);
           url?: string | null;
           label: string;
@@ -539,7 +564,7 @@ export interface ContentBlock {
  * via the `definition` "MediaBlock".
  */
 export interface MediaBlock {
-  media: string | Media;
+  media: number | Media;
   id?: string | null;
   blockName?: string | null;
   blockType: 'mediaBlock';
@@ -566,12 +591,12 @@ export interface ArchiveBlock {
   } | null;
   populateBy?: ('collection' | 'selection') | null;
   relationTo?: 'posts' | null;
-  categories?: (string | Category)[] | null;
+  categories?: (number | Category)[] | null;
   limit?: number | null;
   selectedDocs?:
     | {
         relationTo: 'posts';
-        value: string | Post;
+        value: number | Post;
       }[]
     | null;
   id?: string | null;
@@ -583,7 +608,7 @@ export interface ArchiveBlock {
  * via the `definition` "FormBlock".
  */
 export interface FormBlock {
-  form: string | Form;
+  form: number | Form;
   enableIntro?: boolean | null;
   introContent?: {
     root: {
@@ -609,7 +634,7 @@ export interface FormBlock {
  * via the `definition` "forms".
  */
 export interface Form {
-  id: string;
+  id: number;
   title: string;
   fields?:
     | (
@@ -780,10 +805,213 @@ export interface Form {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "books".
+ */
+export interface Book {
+  id: number;
+  title_vi: string;
+  title_en: string;
+  summary_vi?: string | null;
+  summary_en?: string | null;
+  /**
+   * When enabled, the slug will auto-generate from the title field on save and autosave.
+   */
+  generateSlug?: boolean | null;
+  slug: string;
+  meta?: {
+    title?: string | null;
+    /**
+     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
+     */
+    image?: (number | null) | Media;
+    description?: string | null;
+  };
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "sections".
+ */
+export interface Section {
+  id: number;
+  title_vi: string;
+  order: number;
+  title_en: string;
+  book: number | Book;
+  summary_vi?: string | null;
+  summary_en?: string | null;
+  /**
+   * When enabled, the slug will auto-generate from the title field on save and autosave.
+   */
+  generateSlug?: boolean | null;
+  slug: string;
+  metadata?: {
+    tags?:
+      | {
+          value: string;
+          id?: string | null;
+        }[]
+      | null;
+    keywords?:
+      | {
+          value: string;
+          id?: string | null;
+        }[]
+      | null;
+    ai_notes?: string | null;
+    ai_embeddings?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+  };
+  meta?: {
+    title?: string | null;
+    /**
+     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
+     */
+    image?: (number | null) | Media;
+    description?: string | null;
+  };
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "qas".
+ */
+export interface Qa {
+  id: number;
+  question_vi: string;
+  order: number;
+  question_en: string;
+  answer_vi: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  answer_en: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  section: number | Section;
+  sources?:
+    | {
+        label: string;
+        url: string;
+        notes_vi?: string | null;
+        notes_en?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  metadata?: {
+    tags?:
+      | {
+          value: string;
+          id?: string | null;
+        }[]
+      | null;
+    keywords?:
+      | {
+          value: string;
+          id?: string | null;
+        }[]
+      | null;
+    ai_notes?: string | null;
+    ai_embeddings?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+  };
+  meta?: {
+    title?: string | null;
+    /**
+     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
+     */
+    image?: (number | null) | Media;
+    description?: string | null;
+  };
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "chat-conversations".
+ */
+export interface ChatConversation {
+  id: number;
+  /**
+   * Auto-generated from first user message
+   */
+  title?: string | null;
+  /**
+   * Unique chat ID generated client-side
+   */
+  chatId: string;
+  /**
+   * Array of UIMessage objects from AI SDK
+   */
+  messages:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  language?: ('en' | 'vi') | null;
+  /**
+   * Associated handbook book slug for RAG context
+   */
+  bookSlug?: string | null;
+  /**
+   * Number of messages in the conversation
+   */
+  messageCount?: number | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "redirects".
  */
 export interface Redirect {
-  id: string;
+  id: number;
   /**
    * You will need to rebuild the website when changing this field.
    */
@@ -793,11 +1021,11 @@ export interface Redirect {
     reference?:
       | ({
           relationTo: 'pages';
-          value: string | Page;
+          value: number | Page;
         } | null)
       | ({
           relationTo: 'posts';
-          value: string | Post;
+          value: number | Post;
         } | null);
     url?: string | null;
   };
@@ -809,8 +1037,8 @@ export interface Redirect {
  * via the `definition` "form-submissions".
  */
 export interface FormSubmission {
-  id: string;
-  form: string | Form;
+  id: number;
+  form: number | Form;
   submissionData?:
     | {
         field: string;
@@ -828,18 +1056,31 @@ export interface FormSubmission {
  * via the `definition` "search".
  */
 export interface Search {
-  id: string;
+  id: number;
   title?: string | null;
   priority?: number | null;
-  doc: {
-    relationTo: 'posts';
-    value: string | Post;
-  };
+  doc:
+    | {
+        relationTo: 'posts';
+        value: number | Post;
+      }
+    | {
+        relationTo: 'books';
+        value: number | Book;
+      }
+    | {
+        relationTo: 'sections';
+        value: number | Section;
+      }
+    | {
+        relationTo: 'qas';
+        value: number | Qa;
+      };
   slug?: string | null;
   meta?: {
     title?: string | null;
     description?: string | null;
-    image?: (string | null) | Media;
+    image?: (number | null) | Media;
   };
   categories?:
     | {
@@ -857,7 +1098,7 @@ export interface Search {
  * via the `definition` "payload-kv".
  */
 export interface PayloadKv {
-  id: string;
+  id: number;
   key: string;
   data:
     | {
@@ -874,7 +1115,7 @@ export interface PayloadKv {
  * via the `definition` "payload-jobs".
  */
 export interface PayloadJob {
-  id: string;
+  id: number;
   /**
    * Input data provided to the job
    */
@@ -966,52 +1207,68 @@ export interface PayloadJob {
  * via the `definition` "payload-locked-documents".
  */
 export interface PayloadLockedDocument {
-  id: string;
+  id: number;
   document?:
     | ({
         relationTo: 'pages';
-        value: string | Page;
+        value: number | Page;
       } | null)
     | ({
         relationTo: 'posts';
-        value: string | Post;
+        value: number | Post;
+      } | null)
+    | ({
+        relationTo: 'books';
+        value: number | Book;
+      } | null)
+    | ({
+        relationTo: 'sections';
+        value: number | Section;
+      } | null)
+    | ({
+        relationTo: 'qas';
+        value: number | Qa;
       } | null)
     | ({
         relationTo: 'media';
-        value: string | Media;
+        value: number | Media;
       } | null)
     | ({
         relationTo: 'categories';
-        value: string | Category;
+        value: number | Category;
       } | null)
     | ({
         relationTo: 'users';
-        value: string | User;
+        value: number | User;
+      } | null)
+    | ({
+        relationTo: 'chat-conversations';
+        value: number | ChatConversation;
       } | null)
     | ({
         relationTo: 'redirects';
-        value: string | Redirect;
+        value: number | Redirect;
       } | null)
     | ({
         relationTo: 'forms';
-        value: string | Form;
+        value: number | Form;
       } | null)
     | ({
         relationTo: 'form-submissions';
-        value: string | FormSubmission;
+        value: number | FormSubmission;
       } | null)
     | ({
         relationTo: 'search';
-        value: string | Search;
+        value: number | Search;
       } | null)
     | ({
         relationTo: 'payload-folders';
-        value: string | FolderInterface;
+        value: number | FolderInterface;
       } | null);
   globalSlug?: string | null;
   user: {
     relationTo: 'users';
-    value: string | User;
+    value: number | User;
   };
   updatedAt: string;
   createdAt: string;
@@ -1021,10 +1278,10 @@ export interface PayloadLockedDocument {
  * via the `definition` "payload-preferences".
  */
 export interface PayloadPreference {
-  id: string;
+  id: number;
   user: {
     relationTo: 'users';
-    value: string | User;
+    value: number | User;
   };
   key?: string | null;
   value?:
@@ -1044,7 +1301,7 @@ export interface PayloadPreference {
  * via the `definition` "payload-migrations".
  */
 export interface PayloadMigration {
-  id: string;
+  id: number;
   name?: string | null;
   batch?: number | null;
   updatedAt: string;
@@ -1190,9 +1447,13 @@ export interface FormBlockSelect<T extends boolean = true> {
  * via the `definition` "posts_select".
  */
 export interface PostsSelect<T extends boolean = true> {
-  title?: T;
+  title_vi?: T;
+  title_en?: T;
   heroImage?: T;
-  content?: T;
+  content_vi?: T;
+  content_en?: T;
+  generateSlug?: T;
+  slug?: T;
   relatedPosts?: T;
   categories?: T;
   meta?:
@@ -1210,8 +1471,119 @@ export interface PostsSelect<T extends boolean = true> {
         id?: T;
         name?: T;
       };
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "books_select".
+ */
+export interface BooksSelect<T extends boolean = true> {
+  title_vi?: T;
+  title_en?: T;
+  summary_vi?: T;
+  summary_en?: T;
   generateSlug?: T;
   slug?: T;
+  meta?:
+    | T
+    | {
+        title?: T;
+        image?: T;
+        description?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "sections_select".
+ */
+export interface SectionsSelect<T extends boolean = true> {
+  title_vi?: T;
+  order?: T;
+  title_en?: T;
+  book?: T;
+  summary_vi?: T;
+  summary_en?: T;
+  generateSlug?: T;
+  slug?: T;
+  metadata?:
+    | T
+    | {
+        tags?:
+          | T
+          | {
+              value?: T;
+              id?: T;
+            };
+        keywords?:
+          | T
+          | {
+              value?: T;
+              id?: T;
+            };
+        ai_notes?: T;
+        ai_embeddings?: T;
+      };
+  meta?:
+    | T
+    | {
+        title?: T;
+        image?: T;
+        description?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "qas_select".
+ */
+export interface QasSelect<T extends boolean = true> {
+  question_vi?: T;
+  order?: T;
+  question_en?: T;
+  answer_vi?: T;
+  answer_en?: T;
+  section?: T;
+  sources?:
+    | T
+    | {
+        label?: T;
+        url?: T;
+        notes_vi?: T;
+        notes_en?: T;
+        id?: T;
+      };
+  metadata?:
+    | T
+    | {
+        tags?:
+          | T
+          | {
+              value?: T;
+              id?: T;
+            };
+        keywords?:
+          | T
+          | {
+              value?: T;
+              id?: T;
+            };
+        ai_notes?: T;
+        ai_embeddings?: T;
+      };
+  meta?:
+    | T
+    | {
+        title?: T;
+        image?: T;
+        description?: T;
+      };
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
@@ -1336,6 +1708,7 @@ export interface CategoriesSelect<T extends boolean = true> {
  */
 export interface UsersSelect<T extends boolean = true> {
   name?: T;
+  roles?: T;
   updatedAt?: T;
   createdAt?: T;
   email?: T;
@@ -1352,6 +1725,20 @@ export interface UsersSelect<T extends boolean = true> {
         createdAt?: T;
         expiresAt?: T;
       };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "chat-conversations_select".
+ */
+export interface ChatConversationsSelect<T extends boolean = true> {
+  title?: T;
+  chatId?: T;
+  messages?: T;
+  language?: T;
+  bookSlug?: T;
+  messageCount?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1633,7 +2020,7 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
  * via the `definition` "header".
  */
 export interface Header {
-  id: string;
+  id: number;
   navItems?:
     | {
         link: {
@@ -1642,11 +2029,11 @@ export interface Header {
           reference?:
             | ({
                 relationTo: 'pages';
-                value: string | Page;
+                value: number | Page;
               } | null)
             | ({
                 relationTo: 'posts';
-                value: string | Post;
+                value: number | Post;
               } | null);
           url?: string | null;
           label: string;
@@ -1662,7 +2049,7 @@ export interface Header {
  * via the `definition` "footer".
  */
 export interface Footer {
-  id: string;
+  id: number;
   navItems?:
     | {
         link: {
@@ -1671,11 +2058,11 @@ export interface Footer {
           reference?:
             | ({
                 relationTo: 'pages';
-                value: string | Page;
+                value: number | Page;
               } | null)
             | ({
                 relationTo: 'posts';
-                value: string | Post;
+                value: number | Post;
               } | null);
           url?: string | null;
           label: string;
@@ -1743,14 +2130,26 @@ export interface TaskSchedulePublish {
     doc?:
       | ({
           relationTo: 'pages';
-          value: string | Page;
+          value: number | Page;
         } | null)
       | ({
           relationTo: 'posts';
-          value: string | Post;
+          value: number | Post;
+        } | null)
+      | ({
+          relationTo: 'books';
+          value: number | Book;
+        } | null)
+      | ({
+          relationTo: 'sections';
+          value: number | Section;
+        } | null)
+      | ({
+          relationTo: 'qas';
+          value: number | Qa;
         } | null);
     global?: string | null;
-    user?: (string | null) | User;
+    user?: (number | null) | User;
   };
   output?: unknown;
 }

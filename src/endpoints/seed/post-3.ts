@@ -10,7 +10,36 @@ export const post3: (args: PostArgs) => RequiredDataFromCollectionSlug<'posts'> 
     slug: 'dollar-and-sense-the-financial-forecast',
     _status: 'published',
     authors: [author],
-    content: {
+    content_vi: {
+      root: {
+        type: 'root',
+        children: [
+          {
+            type: 'paragraph',
+            children: [
+              {
+                type: 'text',
+                detail: 0,
+                format: 0,
+                mode: 'normal',
+                style: '',
+                text: 'Bài viết mẫu tiếng Việt.',
+                version: 1,
+              },
+            ],
+            direction: 'ltr',
+            format: '',
+            indent: 0,
+            version: 1,
+          },
+        ],
+        direction: 'ltr',
+        format: '',
+        indent: 0,
+        version: 1,
+      },
+    },
+    content_en: {
       root: {
         type: 'root',
         children: [
@@ -263,6 +292,7 @@ export const post3: (args: PostArgs) => RequiredDataFromCollectionSlug<'posts'> 
       title: 'Dollar and Sense: The Financial Forecast',
     },
     relatedPosts: [], // this is populated by the seed script
-    title: 'Dollar and Sense: The Financial Forecast',
+    title_vi: 'Dollar and Sense: The Financial Forecast (VI)',
+    title_en: 'Dollar and Sense: The Financial Forecast',
   }
 }
