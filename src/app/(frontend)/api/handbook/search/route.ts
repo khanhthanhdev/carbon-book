@@ -24,17 +24,10 @@ export async function GET(request: NextRequest): Promise<Response> {
   const language: SupportedLanguage = isSupportedLanguage(languageParam) ? languageParam : 'en'
 
   if (query.length < HANDBOOK_SEARCH_MIN_QUERY_LENGTH) {
-    return Response.json(
-      {
-        results: [],
-        total: 0,
-      },
-      {
-        headers: {
-          'Cache-Control': 'no-store',
-        },
-      },
-    )
+    return Response.json({
+      results: [],
+      total: 0,
+    })
   }
 
   const { isEnabled: draft } = await draftMode()
@@ -61,15 +54,8 @@ export async function GET(request: NextRequest): Promise<Response> {
     })
   }
 
-  return Response.json(
-    {
-      results,
-      total: results.length,
-    },
-    {
-      headers: {
-        'Cache-Control': 'no-store',
-      },
-    },
-  )
+  return Response.json({
+    results,
+    total: results.length,
+  })
 }

@@ -136,9 +136,6 @@ export async function POST(req: Request): Promise<Response> {
   const payload = await getPayload({ config })
 
   return createUIMessageStreamResponse({
-    headers: {
-      'Cache-Control': 'no-store',
-    },
     stream: createUIMessageStream<ChatUIMessage>({
       originalMessages: messages,
       execute: async ({ writer }) => {

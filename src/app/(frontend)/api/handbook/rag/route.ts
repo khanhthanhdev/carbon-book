@@ -71,11 +71,7 @@ export async function POST(request: NextRequest): Promise<Response> {
       suggestions: [],
     }
 
-    return Response.json(empty, {
-      headers: {
-        'Cache-Control': 'no-store',
-      },
-    })
+    return Response.json(empty)
   }
 
   const response = await generateHandbookRagResponse({
@@ -86,9 +82,5 @@ export async function POST(request: NextRequest): Promise<Response> {
     sectionId: typeof body.sectionId === 'number' ? body.sectionId : undefined,
   })
 
-  return Response.json(response, {
-    headers: {
-      'Cache-Control': 'no-store',
-    },
-  })
+  return Response.json(response)
 }
