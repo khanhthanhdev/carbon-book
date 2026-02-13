@@ -67,6 +67,7 @@
         "tailwind-merge": "^3.4.0",
         "use-stick-to-bottom": "^1.1.3",
         "valibot": "^1.2.0",
+        "zod": "^4.3.6",
       },
       "devDependencies": {
         "@eslint/eslintrc": "^3.2.0",
@@ -2673,9 +2674,9 @@
 
     "yocto-queue": ["yocto-queue@0.1.0", "", {}, ""],
 
-    "zwitch": ["zwitch@2.0.4", "", {}, ""],
+    "zod": ["zod@4.3.6", "", {}, "sha512-rftlrkhHZOcjDwkGlnUtZZkvaPHCsDATp4pGpuOOMDaTdDDXF91wuVDJoWoPsKX/3YPQ5fHuF3STjcYyKr+Qhg=="],
 
-    "@asamuzakjp/css-color/lru-cache": ["lru-cache@11.2.6", "", {}, ""],
+    "zwitch": ["zwitch@2.0.4", "", {}, ""],
 
     "@aws-crypto/sha1-browser/@smithy/util-utf8": ["@smithy/util-utf8@2.3.0", "", { "dependencies": { "@smithy/util-buffer-from": "^2.2.0", "tslib": "^2.6.2" } }, ""],
 
@@ -2751,8 +2752,6 @@
 
     "@typescript-eslint/typescript-estree/minimatch": ["minimatch@9.0.5", "", { "dependencies": { "brace-expansion": "^2.0.1" } }, ""],
 
-    "@typescript-eslint/typescript-estree/semver": ["semver@7.7.4", "", { "bin": "bin/semver.js" }, ""],
-
     "accessory/balanced-match": ["balanced-match@0.2.1", "", {}, ""],
 
     "acorn-node/acorn": ["acorn@7.4.1", "", { "bin": "bin/acorn" }, ""],
@@ -2771,8 +2770,6 @@
 
     "browserify-shim/resolve": ["resolve@0.6.3", "", {}, ""],
 
-    "browserify-sign/readable-stream": ["readable-stream@2.3.8", "", { "dependencies": { "core-util-is": "~1.0.0", "inherits": "~2.0.3", "isarray": "~1.0.0", "process-nextick-args": "~2.0.0", "safe-buffer": "~5.1.1", "string_decoder": "~1.1.1", "util-deprecate": "~1.0.1" } }, ""],
-
     "chevrotain/lodash-es": ["lodash-es@4.17.21", "", {}, ""],
 
     "chokidar/glob-parent": ["glob-parent@5.1.2", "", { "dependencies": { "is-glob": "^4.0.1" } }, ""],
@@ -2784,8 +2781,6 @@
     "concat-stream/readable-stream": ["readable-stream@2.0.6", "", { "dependencies": { "core-util-is": "~1.0.0", "inherits": "~2.0.1", "isarray": "~1.0.0", "process-nextick-args": "~1.0.6", "string_decoder": "~0.10.x", "util-deprecate": "~1.0.1" } }, ""],
 
     "create-ecdh/bn.js": ["bn.js@4.12.2", "", {}, ""],
-
-    "cssstyle/lru-cache": ["lru-cache@11.2.6", "", {}, ""],
 
     "cytoscape-fcose/cose-base": ["cose-base@2.2.0", "", { "dependencies": { "layout-base": "^2.0.0" } }, ""],
 
@@ -2804,8 +2799,6 @@
     "dom-helpers/csstype": ["csstype@3.1.3", "", {}, ""],
 
     "drizzle-kit/esbuild": ["esbuild@0.25.12", "", { "optionalDependencies": { "@esbuild/linux-x64": "0.25.12" }, "bin": "bin/esbuild" }, ""],
-
-    "duplexer2/readable-stream": ["readable-stream@2.3.8", "", { "dependencies": { "core-util-is": "~1.0.0", "inherits": "~2.0.3", "isarray": "~1.0.0", "process-nextick-args": "~2.0.0", "safe-buffer": "~5.1.1", "string_decoder": "~1.1.1", "util-deprecate": "~1.0.1" } }, ""],
 
     "elliptic/bn.js": ["bn.js@4.12.2", "", {}, ""],
 
@@ -2849,15 +2842,11 @@
 
     "insert-module-globals/concat-stream": ["concat-stream@1.6.2", "", { "dependencies": { "buffer-from": "^1.0.0", "inherits": "^2.0.3", "readable-stream": "^2.2.2", "typedarray": "^0.0.6" } }, ""],
 
-    "is-bun-module/semver": ["semver@7.7.4", "", { "bin": "bin/semver.js" }, ""],
-
     "jsonp/debug": ["debug@2.6.9", "", { "dependencies": { "ms": "2.0.0" } }, ""],
 
     "jsprim/assert-plus": ["assert-plus@1.0.0", "", {}, ""],
 
     "libsql/detect-libc": ["detect-libc@2.0.2", "", {}, ""],
-
-    "lightningcss/detect-libc": ["detect-libc@2.1.2", "", {}, ""],
 
     "mdast-util-find-and-replace/escape-string-regexp": ["escape-string-regexp@5.0.0", "", {}, ""],
 
@@ -2870,8 +2859,6 @@
     "miller-rabin/bn.js": ["bn.js@4.12.2", "", {}, ""],
 
     "mlly/acorn": ["acorn@8.15.0", "", { "bin": "bin/acorn" }, ""],
-
-    "module-deps/readable-stream": ["readable-stream@2.3.8", "", { "dependencies": { "core-util-is": "~1.0.0", "inherits": "~2.0.3", "isarray": "~1.0.0", "process-nextick-args": "~2.0.0", "safe-buffer": "~5.1.1", "string_decoder": "~1.1.1", "util-deprecate": "~1.0.1" } }, ""],
 
     "next/postcss": ["postcss@8.4.31", "", { "dependencies": { "nanoid": "^3.3.6", "picocolors": "^1.0.0", "source-map-js": "^1.0.2" } }, ""],
 
@@ -2901,8 +2888,6 @@
 
     "react-dom/scheduler": ["scheduler@0.27.0", "", {}, ""],
 
-    "read-only-stream/readable-stream": ["readable-stream@2.3.8", "", { "dependencies": { "core-util-is": "~1.0.0", "inherits": "~2.0.3", "isarray": "~1.0.0", "process-nextick-args": "~2.0.0", "safe-buffer": "~5.1.1", "string_decoder": "~1.1.1", "util-deprecate": "~1.0.1" } }, ""],
-
     "readable-stream/safe-buffer": ["safe-buffer@5.1.2", "", {}, ""],
 
     "readable-stream/string_decoder": ["string_decoder@1.1.1", "", { "dependencies": { "safe-buffer": "~5.1.0" } }, ""],
@@ -2927,16 +2912,6 @@
 
     "stream-browserify/readable-stream": ["readable-stream@3.6.2", "", { "dependencies": { "inherits": "^2.0.3", "string_decoder": "^1.1.1", "util-deprecate": "^1.0.1" } }, ""],
 
-    "stream-combiner2/readable-stream": ["readable-stream@2.3.8", "", { "dependencies": { "core-util-is": "~1.0.0", "inherits": "~2.0.3", "isarray": "~1.0.0", "process-nextick-args": "~2.0.0", "safe-buffer": "~5.1.1", "string_decoder": "~1.1.1", "util-deprecate": "~1.0.1" } }, ""],
-
-    "stream-http/readable-stream": ["readable-stream@2.3.8", "", { "dependencies": { "core-util-is": "~1.0.0", "inherits": "~2.0.3", "isarray": "~1.0.0", "process-nextick-args": "~2.0.0", "safe-buffer": "~5.1.1", "string_decoder": "~1.1.1", "util-deprecate": "~1.0.1" } }, ""],
-
-    "stream-splicer/readable-stream": ["readable-stream@2.3.8", "", { "dependencies": { "core-util-is": "~1.0.0", "inherits": "~2.0.3", "isarray": "~1.0.0", "process-nextick-args": "~2.0.0", "safe-buffer": "~5.1.1", "string_decoder": "~1.1.1", "util-deprecate": "~1.0.1" } }, ""],
-
-    "through2/readable-stream": ["readable-stream@2.3.8", "", { "dependencies": { "core-util-is": "~1.0.0", "inherits": "~2.0.3", "isarray": "~1.0.0", "process-nextick-args": "~2.0.0", "safe-buffer": "~5.1.1", "string_decoder": "~1.1.1", "util-deprecate": "~1.0.1" } }, ""],
-
-    "tinyglobby/picomatch": ["picomatch@4.0.3", "", {}, ""],
-
     "to-buffer/isarray": ["isarray@2.0.5", "", {}, ""],
 
     "tr46/punycode": ["punycode@2.3.1", "", {}, ""],
@@ -2947,8 +2922,6 @@
 
     "uri-js/punycode": ["punycode@2.3.1", "", {}, ""],
 
-    "url/punycode": ["punycode@1.4.1", "", {}, ""],
-
     "url/qs": ["qs@6.14.2", "", { "dependencies": { "side-channel": "^1.1.0" } }, ""],
 
     "util/inherits": ["inherits@2.0.3", "", {}, ""],
@@ -2956,10 +2929,6 @@
     "verror/assert-plus": ["assert-plus@1.0.0", "", {}, ""],
 
     "verror/core-util-is": ["core-util-is@1.0.2", "", {}, ""],
-
-    "vite/esbuild": ["esbuild@0.27.3", "", { "optionalDependencies": { "@esbuild/linux-x64": "0.27.3" }, "bin": "bin/esbuild" }, ""],
-
-    "vite/picomatch": ["picomatch@4.0.3", "", {}, ""],
 
     "which-builtin-type/isarray": ["isarray@2.0.5", "", {}, ""],
 
@@ -2975,31 +2944,13 @@
 
     "@typescript-eslint/typescript-estree/minimatch/brace-expansion": ["brace-expansion@2.0.2", "", { "dependencies": { "balanced-match": "^1.0.0" } }, ""],
 
-    "browserify-sign/readable-stream/isarray": ["isarray@1.0.0", "", {}, ""],
-
-    "browserify-sign/readable-stream/safe-buffer": ["safe-buffer@5.1.2", "", {}, ""],
-
-    "browserify-sign/readable-stream/string_decoder": ["string_decoder@1.1.1", "", { "dependencies": { "safe-buffer": "~5.1.0" } }, ""],
-
-    "concat-stream/readable-stream/isarray": ["isarray@1.0.0", "", {}, ""],
-
     "concat-stream/readable-stream/process-nextick-args": ["process-nextick-args@1.0.7", "", {}, ""],
 
-    "concat-stream/readable-stream/string_decoder": ["string_decoder@0.10.31", "", {}, ""],
-
     "cytoscape-fcose/cose-base/layout-base": ["layout-base@2.0.1", "", {}, ""],
-
-    "d3-sankey/d3-array/internmap": ["internmap@1.0.1", "", {}, ""],
 
     "d3-sankey/d3-shape/d3-path": ["d3-path@1.0.9", "", {}, ""],
 
     "drizzle-kit/esbuild/@esbuild/linux-x64": ["@esbuild/linux-x64@0.25.12", "", { "os": "linux", "cpu": "x64" }, ""],
-
-    "duplexer2/readable-stream/isarray": ["isarray@1.0.0", "", {}, ""],
-
-    "duplexer2/readable-stream/safe-buffer": ["safe-buffer@5.1.2", "", {}, ""],
-
-    "duplexer2/readable-stream/string_decoder": ["string_decoder@1.1.1", "", { "dependencies": { "safe-buffer": "~5.1.0" } }, ""],
 
     "exposify/through2/readable-stream": ["readable-stream@1.0.34", "", { "dependencies": { "core-util-is": "~1.0.0", "inherits": "~2.0.1", "isarray": "0.0.1", "string_decoder": "~0.10.x" } }, ""],
 
@@ -3007,17 +2958,7 @@
 
     "har-validator/ajv/json-stable-stringify": ["json-stable-stringify@1.3.0", "", { "dependencies": { "call-bind": "^1.0.8", "call-bound": "^1.0.4", "isarray": "^2.0.5", "jsonify": "^0.0.1", "object-keys": "^1.1.1" } }, ""],
 
-    "insert-module-globals/concat-stream/readable-stream": ["readable-stream@2.3.8", "", { "dependencies": { "core-util-is": "~1.0.0", "inherits": "~2.0.3", "isarray": "~1.0.0", "process-nextick-args": "~2.0.0", "safe-buffer": "~5.1.1", "string_decoder": "~1.1.1", "util-deprecate": "~1.0.1" } }, ""],
-
-    "insert-module-globals/concat-stream/typedarray": ["typedarray@0.0.6", "", {}, ""],
-
     "jsonp/debug/ms": ["ms@2.0.0", "", {}, ""],
-
-    "module-deps/readable-stream/isarray": ["isarray@1.0.0", "", {}, ""],
-
-    "module-deps/readable-stream/safe-buffer": ["safe-buffer@5.1.2", "", {}, ""],
-
-    "module-deps/readable-stream/string_decoder": ["string_decoder@1.1.1", "", { "dependencies": { "safe-buffer": "~5.1.0" } }, ""],
 
     "next/postcss/nanoid": ["nanoid@3.3.11", "", { "bin": "bin/nanoid.cjs" }, ""],
 
@@ -3029,53 +2970,11 @@
 
     "next/sharp/@img/sharp-linuxmusl-x64": ["@img/sharp-linuxmusl-x64@0.34.5", "", { "optionalDependencies": { "@img/sharp-libvips-linuxmusl-x64": "1.2.4" }, "os": "linux", "cpu": "x64" }, ""],
 
-    "next/sharp/detect-libc": ["detect-libc@2.1.2", "", {}, ""],
-
-    "next/sharp/semver": ["semver@7.7.4", "", { "bin": "bin/semver.js" }, ""],
-
     "payload/ajv/json-schema-traverse": ["json-schema-traverse@1.0.0", "", {}, ""],
-
-    "read-only-stream/readable-stream/isarray": ["isarray@1.0.0", "", {}, ""],
-
-    "read-only-stream/readable-stream/safe-buffer": ["safe-buffer@5.1.2", "", {}, ""],
-
-    "read-only-stream/readable-stream/string_decoder": ["string_decoder@1.1.1", "", { "dependencies": { "safe-buffer": "~5.1.0" } }, ""],
-
-    "request/tough-cookie/punycode": ["punycode@1.4.1", "", {}, ""],
-
-    "ripemd160/hash-base/readable-stream": ["readable-stream@2.3.8", "", { "dependencies": { "core-util-is": "~1.0.0", "inherits": "~2.0.3", "isarray": "~1.0.0", "process-nextick-args": "~2.0.0", "safe-buffer": "~5.1.1", "string_decoder": "~1.1.1", "util-deprecate": "~1.0.1" } }, ""],
 
     "stream-browserify/readable-stream/string_decoder": ["string_decoder@1.3.0", "", { "dependencies": { "safe-buffer": "~5.2.0" } }, ""],
 
-    "stream-combiner2/readable-stream/isarray": ["isarray@1.0.0", "", {}, ""],
-
-    "stream-combiner2/readable-stream/safe-buffer": ["safe-buffer@5.1.2", "", {}, ""],
-
-    "stream-combiner2/readable-stream/string_decoder": ["string_decoder@1.1.1", "", { "dependencies": { "safe-buffer": "~5.1.0" } }, ""],
-
-    "stream-http/readable-stream/isarray": ["isarray@1.0.0", "", {}, ""],
-
-    "stream-http/readable-stream/safe-buffer": ["safe-buffer@5.1.2", "", {}, ""],
-
-    "stream-http/readable-stream/string_decoder": ["string_decoder@1.1.1", "", { "dependencies": { "safe-buffer": "~5.1.0" } }, ""],
-
-    "stream-splicer/readable-stream/isarray": ["isarray@1.0.0", "", {}, ""],
-
-    "stream-splicer/readable-stream/safe-buffer": ["safe-buffer@5.1.2", "", {}, ""],
-
-    "stream-splicer/readable-stream/string_decoder": ["string_decoder@1.1.1", "", { "dependencies": { "safe-buffer": "~5.1.0" } }, ""],
-
-    "through2/readable-stream/isarray": ["isarray@1.0.0", "", {}, ""],
-
-    "through2/readable-stream/safe-buffer": ["safe-buffer@5.1.2", "", {}, ""],
-
-    "through2/readable-stream/string_decoder": ["string_decoder@1.1.1", "", { "dependencies": { "safe-buffer": "~5.1.0" } }, ""],
-
     "transformify/readable-stream/isarray": ["isarray@0.0.1", "", {}, ""],
-
-    "transformify/readable-stream/string_decoder": ["string_decoder@0.10.31", "", {}, ""],
-
-    "vite/esbuild/@esbuild/linux-x64": ["@esbuild/linux-x64@0.27.3", "", { "os": "linux", "cpu": "x64" }, ""],
 
     "@aws-crypto/sha1-browser/@smithy/util-utf8/@smithy/util-buffer-from/@smithy/is-array-buffer": ["@smithy/is-array-buffer@2.2.0", "", { "dependencies": { "tslib": "^2.6.2" } }, ""],
 
@@ -3083,28 +2982,10 @@
 
     "@aws-crypto/util/@smithy/util-utf8/@smithy/util-buffer-from/@smithy/is-array-buffer": ["@smithy/is-array-buffer@2.2.0", "", { "dependencies": { "tslib": "^2.6.2" } }, ""],
 
-    "browserify-sign/readable-stream/string_decoder/safe-buffer": ["safe-buffer@5.1.2", "", {}, ""],
-
     "exposify/through2/readable-stream/isarray": ["isarray@0.0.1", "", {}, ""],
-
-    "exposify/through2/readable-stream/string_decoder": ["string_decoder@0.10.31", "", {}, ""],
 
     "exposify/through2/xtend/object-keys": ["object-keys@0.4.0", "", {}, ""],
 
     "har-validator/ajv/json-stable-stringify/isarray": ["isarray@2.0.5", "", {}, ""],
-
-    "insert-module-globals/concat-stream/readable-stream/isarray": ["isarray@1.0.0", "", {}, ""],
-
-    "insert-module-globals/concat-stream/readable-stream/safe-buffer": ["safe-buffer@5.1.2", "", {}, ""],
-
-    "insert-module-globals/concat-stream/readable-stream/string_decoder": ["string_decoder@1.1.1", "", { "dependencies": { "safe-buffer": "~5.1.0" } }, ""],
-
-    "ripemd160/hash-base/readable-stream/isarray": ["isarray@1.0.0", "", {}, ""],
-
-    "ripemd160/hash-base/readable-stream/safe-buffer": ["safe-buffer@5.1.2", "", {}, ""],
-
-    "ripemd160/hash-base/readable-stream/string_decoder": ["string_decoder@1.1.1", "", { "dependencies": { "safe-buffer": "~5.1.0" } }, ""],
-
-    "ripemd160/hash-base/readable-stream/string_decoder/safe-buffer": ["safe-buffer@5.1.2", "", {}, ""],
   }
 }
