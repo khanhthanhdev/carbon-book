@@ -40,6 +40,7 @@
         "@streamdown/math": "^1.0.2",
         "@streamdown/mermaid": "^1.0.2",
         "@upstash/vector": "^1.2.2",
+        "@valibot/to-json-schema": "^1.5.0",
         "add": "^2.0.6",
         "ai": "^6.0.82",
         "ai-elements": "^1.8.4",
@@ -897,6 +898,8 @@
     "@unrs/resolver-binding-linux-x64-musl": ["@unrs/resolver-binding-linux-x64-musl@1.11.1", "", { "os": "linux", "cpu": "x64" }, ""],
 
     "@upstash/vector": ["@upstash/vector@1.2.2", "", {}, ""],
+
+    "@valibot/to-json-schema": ["@valibot/to-json-schema@1.5.0", "", { "peerDependencies": { "valibot": "^1.2.0" } }, "sha512-GE7DmSr1C2UCWPiV0upRH6mv0cCPsqYGs819fb6srCS1tWhyXrkGGe+zxUiwzn/L1BOfADH4sNjY/YHCuP8phQ=="],
 
     "@vercel/oidc": ["@vercel/oidc@3.1.0", "", {}, ""],
 
